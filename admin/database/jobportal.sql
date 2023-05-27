@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 30, 2023 at 10:27 PM
+-- Generation Time: May 27, 2023 at 02:11 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -63,20 +63,22 @@ CREATE TABLE `jobs` (
   `city` varchar(255) NOT NULL,
   `category` int(255) NOT NULL,
   `schedule` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL
+  `email` varchar(255) NOT NULL,
+  `when_posted` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `jobs`
 --
 
-INSERT INTO `jobs` (`id`, `job-name`, `job-description`, `city`, `category`, `schedule`, `email`) VALUES
-(1, 'Programmer', 'U can do stuff', 'Array', 3, 'parttime', 'vesa@gmail.com'),
-(2, 'Programmer', 'U can do stuff', 'Array', 3, 'parttime', 'vesa@gmail.com'),
-(3, 'Programmer', 'U can do stuff', 'Array', 3, 'parttime', 'vesa@gmail.com'),
-(4, 'Programmer', 'U can do stuff', 'Array', 3, 'parttime', 'vesa@gmail.com'),
-(5, 'Programmer', 'U can do stuff', 'Array', 3, 'parttime', 'vesa@gmail.com'),
-(6, 'Programmer', 'U can do stuff', 'Array', 2, 'intern', 'malartpeqani@gmail.com');
+INSERT INTO `jobs` (`id`, `job-name`, `job-description`, `city`, `category`, `schedule`, `email`, `when_posted`) VALUES
+(1, 'Programmer', 'U can do stuff', 'Array', 3, 'parttime', 'vesa@gmail.com', '2023-05-20 16:36:25'),
+(2, 'Programmer', 'U can do stuff', 'Array', 3, 'parttime', 'vesa@gmail.com', '2023-05-20 16:36:25'),
+(3, 'Programmer', 'U can do stuff', 'Array', 3, 'parttime', 'vesa@gmail.com', '2023-05-20 16:36:25'),
+(4, 'Programmer', 'U can do stuff', 'Array', 3, 'parttime', 'vesa@gmail.com', '2023-05-20 16:36:25'),
+(5, 'Programmer', 'U can do stuff', 'Array', 3, 'parttime', 'vesa@gmail.com', '2023-05-20 16:36:25'),
+(6, 'Programmer', 'U can do stuff', 'Array', 2, 'intern', 'malartpeqani@gmail.com', '2023-05-20 16:36:25'),
+(7, 'sdisdi', 'In the code snippet you provided, there doesn\'t appear to be any immediate issues. However, there are a few suggestions and best practices you can follow to improve the code and avoid potential errors:  SQL Injection: It\'s important to sanitize user input', 'Array', 4, 'fulltime', 'malartpeqani@gmail.com', '2023-05-25 21:01:15');
 
 -- --------------------------------------------------------
 
@@ -101,7 +103,9 @@ INSERT INTO `users` (`id`, `full-name`, `email`, `password`, `usertype`) VALUES
 (2, 'admin', 'admin@admin.com', 'admin123', 'admin'),
 (3, 'Blin Peqani', 'blinpeqani@gmail.com', 'blini123', 'user'),
 (4, 'Ammar Sylejmani', 'ammarsylejmani@gmail.com', 'amar123', 'user'),
-(5, 'Erza Gacaferi', 'erzagaceferi@gmail.com', 'erza123', 'user');
+(5, 'Erza Gacaferi', 'erzagaceferi@gmail.com', 'erza123', 'user'),
+(6, 'Arianit', 'niti@gmail.com', '12345678', 'user'),
+(7, 'fisnik', 'fisnik@gmail.com', 'fisi123', 'user');
 
 --
 -- Indexes for dumped tables
@@ -141,13 +145,13 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `jobs`
 --
 ALTER TABLE `jobs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables
