@@ -1,36 +1,55 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+session_start();
 include './config.php';
+
 if (!empty($_SESSION['id'])) {
     header("Location: ./index.php");
+    exit();
 }
 
 if (isset($_POST['logInBtn'])) {
-    $NameEmail = $_POST['NameEmail'];
+    $email = $_POST['email'];
     $password = $_POST['password'];
-    $result = mysqli_query($conn, "SELECT * FROM users WHERE `full-name` = '$NameEmail' OR email = '$NameEmail'");
-    $row = mysqli_fetch_assoc($result);
 
-    // Admin Log In
-    if ($row['usertype'] === 'admin') {
-        $_SESSION['adminLogin'] = true;
-        $_SESSION['uid'] = $row['id'];
-        header("Location: ./admin/index.php");
+    if (empty($email)) {
+        echo "<script>alert('Email is required!')</script>";
+    } else if (empty($password)) {
+        echo "<script>alert('Password is required!')</script>";
     } else {
-        echo "<script>alert('Fullname or Email doesn't exist!')</script>";
-    }
+        $sql = "SELECT * FROM `users` WHERE email = ? LIMIT 1";
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, 's', $email);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        $row = mysqli_fetch_assoc($result);
 
-    // User Log In
-    if ($row['usertype'] == "user") {
-        $_SESSION['login'] = true;
-        $_SESSION['id'] = $row['id'];
-        $_SESSION['name'] = $row["full-name"];
-        header("Location: ./index.php");
-    } else {
-        echo "<script> alert('Fullname/Email or Password is incorrect!'); </script>";
+        // if ($row && password_verify($password, $row['password'])) {
+        if ($email == $row['email'] && $password == $row['password'] && $row['usertype'] === "user") {
+            $_SESSION['login'] = true;
+            $_SESSION['id'] = $row['id'];
+            $_SESSION['full-name'] = $row['full-name'];
+            $_SESSION['email'] = $row['email'];
+            mysqli_stmt_close($stmt);
+            header("Location: ./index.php");
+            exit();
+        } elseif ($email == $row['email'] && $password == $row['password'] && $row['usertype'] === "admin" && $row['id'] == 2) {
+            $_SESSION['admin_login'] = true;
+            $_SESSION['aid'] = $row['id'];
+            mysqli_stmt_close($stmt);
+            header("Location: ./admin/index.php");
+            exit();
+        }
+        // } else {
+        //     echo "<script>alert('Email or Password is incorrect!')</script>";
+        // }
+
+        mysqli_stmt_close($stmt);
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -52,7 +71,7 @@ if (isset($_POST['logInBtn'])) {
                 <form class="login" method="post" autocomplete="off">
                     <div class="login__field">
                         <i class="login__icon fas fa-user"></i>
-                        <input type="text" class="login__input" placeholder="Full Name / Email" name="NameEmail" required>
+                        <input type="text" class="login__input" placeholder="Email" name="email" required>
                     </div>
                     <div class="login__field">
                         <i class="login__icon fas fa-lock"></i>

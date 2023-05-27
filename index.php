@@ -1,10 +1,13 @@
 <?php
-include './config.php';
-// if (!empty($_SESSION['id'])) {
-//     echo "<script>alert('You are Loged/Registered In')</script>";
+session_start();
+
+// // Check if the user is logged in
+// if (!isset($_SESSION['id'])) {
+//     echo "<script>alert('You are NOT Logged/Registered In')</script>";
 // } else {
-//     echo "<script>alert('You are NOT Loged/Registered In')</script>";
+//     echo "<script>alert('You are Logged/Registered In')</script>";
 // }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -42,87 +45,49 @@ include './config.php';
 <body>
     <div class="container-xxl bg-white p-0">
         <!-- Spinner Start -->
-        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
-        </div>
+
         <!-- Spinner End -->
 
 
         <!-- Navbar Start -->
-        <?php if (isset($_SESSION['id'])) { ?>
-
-            <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
-                <a href="index.html" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
-                    <h1 class="m-0 text-primary">JobEntry</h1>
-                </a>
-                <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <div class="navbar-nav ms-auto p-4 p-lg-0">
-                        <a href="index.html" class="nav-item nav-link active">Home</a>
-                        <a href="about.html" class="nav-item nav-link">About</a>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Jobs</a>
-                            <div class="dropdown-menu rounded-0 m-0">
-                                <a href="job-list.html" class="dropdown-item">Job List</a>
-                                <a href="job-detail.html" class="dropdown-item">Job Detail</a>
-                            </div>
+        <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
+            <a href="index.html" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
+                <h1 class="m-0 text-primary">JobEntry</h1>
+            </a>
+            <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav ms-auto p-4 p-lg-0">
+                    <a href="index.html" class="nav-item nav-link active">Home</a>
+                    <a href="about.html" class="nav-item nav-link">About</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Jobs</a>
+                        <div class="dropdown-menu rounded-0 m-0">
+                            <a href="job-list.php" class="dropdown-item">Job List</a>
+                            <a href="job-detail.html" class="dropdown-item">Job Detail</a>
                         </div>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                            <div class="dropdown-menu rounded-0 m-0">
-                                <a href="category.html" class="dropdown-item">Job Category</a>
-                                <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                                <a href="404.html" class="dropdown-item">404</a>
-                            </div>
-                        </div>
-                        <a href="contact.html" class="nav-item nav-link">Contact</a>
-                        <a href="./logout.php" class="nav-item nav-link">Log Out</a>
                     </div>
-
-                    <a href="./announcejob.php" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Announce Job<i class="fa fa-arrow-right ms-3"></i></a>
-
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                        <div class="dropdown-menu rounded-0 m-0">
+                            <a href="category.html" class="dropdown-item">Job Category</a>
+                            <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                            <a href="404.html" class="dropdown-item">404</a>
+                        </div>
+                    </div>
+                    <a href="contact.html" class="nav-item nav-link">Contact</a>
                 </div>
-            </nav>
-
-        <?php } else { ?>
-
-            <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
-                <a href="index.html" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
-                    <h1 class="m-0 text-primary">JobEntry</h1>
-                </a>
-                <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <div class="navbar-nav ms-auto p-4 p-lg-0">
-                        <a href="index.html" class="nav-item nav-link active">Home</a>
-                        <a href="about.html" class="nav-item nav-link">About</a>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Jobs</a>
-                            <div class="dropdown-menu rounded-0 m-0">
-                                <a href="job-list.html" class="dropdown-item">Job List</a>
-                                <a href="job-detail.html" class="dropdown-item">Job Detail</a>
-                            </div>
-                        </div>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                            <div class="dropdown-menu rounded-0 m-0">
-                                <a href="category.html" class="dropdown-item">Job Category</a>
-                                <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                                <a href="404.html" class="dropdown-item">404</a>
-                            </div>
-                        </div>
-                        <a href="contact.html" class="nav-item nav-link">Contact</a>
-                    </div>
+                <?php if (!isset($_SESSION['id'])) { ?>
                     <a href="./login.php" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Log In / Register<i class="fa fa-arrow-right ms-3"></i></a>
-                </div>
-            </nav>
+                <?php } else { ?>
+                    <a href="./logout.php" class="nav-item nav-link">Log Out</a>
+                    <a href="./announcejob.php" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Announce Job<i class="fa fa-arrow-right ms-3"></i></a>
+                <?php } ?>
+            </div>
+        </nav>
 
-        <?php } ?>
+
         <!-- Navbar End -->
 
 
@@ -275,24 +240,33 @@ include './config.php';
                     <div class="tab-content">
                         <div id="tab-1" class="tab-pane fade show p-0 active">
                             <?php
-                            $resultJob = mysqli_query($conn, "SELECT `job-name`, `job-description`, `schedule`, `email` FROM jobs") or die("Query failed: " . mysqli_error($conn));
-                            while (list($jobname, $jobdescription, $schedule, $email) = mysqli_fetch_array($resultJob)) {
+                            $resultJob = mysqli_query($conn, "SELECT `id`, `job-name`, `job-description`, `schedule`, `email`, DATE(`when_posted`) AS date_only FROM jobs") or die("Query failed: " . mysqli_error($conn));
+                            while (list($id, $jobname, $jobdescription, $schedule, $email, $whenPosted) = mysqli_fetch_array($resultJob)) {
                             ?>
                                 <div class="job-item p-4 mb-4">
                                     <div class="row g-4">
                                         <div class="col-sm-12 col-md-8 d-flex align-items-center">
                                             <div class="text-start ps-4">
-                                                <h5 class="mb-3"><?php echo $jobname ?></h5>
+                                                <a href="job-detail.php?id=<?php echo $id ?>">
+                                                    <h5 class="mb-3"><?php echo $jobname ?></h5>
+                                                </a>
                                                 <p><?php echo $jobdescription ?></p>
-                                                <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i><?php echo $schedule ?></span>
+                                                <span class="text-truncate me-0">
+                                                    <i class="far fa-money-bill-alt text-primary me-2"></i>
+                                                    Send CV to: <?php echo $email ?>
+                                                </span>
+                                                <span class="text-truncate me-3">
+                                                    <i class="far fa-clock text-primary me-2"></i>
+                                                    <?php echo $schedule ?>
+                                                </span>
                                             </div>
                                         </div>
                                         <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
                                             <div class="d-flex mb-3">
                                                 <a class="btn btn-light btn-square me-3" href=""><i class="far fa-heart text-primary"></i></a>
-                                                <!-- <a class="btn btn-primary" href="">Apply Now</a> -->
+                                                <a class="btn btn-primary" href="">View Details</a>
                                             </div>
-                                            <small class="text-truncate">Send CV to: <?php echo $email ?></small>
+                                            <small class="text-truncate"><?php echo $whenPosted ?></small>
                                         </div>
                                     </div>
                                 </div>

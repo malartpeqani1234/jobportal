@@ -13,10 +13,23 @@ if (isset($_POST['announceBtn'])) {
     if (!preg_match($emailValidation, $email)) {
         echo "<script>alert('$email is not valid!');</script>";
     } else {
-        mysqli_query($conn, "INSERT INTO `jobs`(`job-name`, `job-description`, `city`, `category`, `schedule`, `email`) VALUES ('$jobname', '$jobDesc', '$city', '$category', '$schedule', '$email')") or die("Query failed: " . mysqli_error($conn));
+        // mysqli_query($conn, "INSERT INTO `jobs`(`job-name`, `job-description`, `city`, `category`, `schedule`, `email`)
+        // VALUES ('$jobname', '$jobDesc', '$city', '$category', '$schedule', '$email')") or die("Query failed: " . mysqli_error($conn));
+
+        $stmt = mysqli_prepare($conn, "INSERT INTO `jobs`(`job-name`, `job-description`, `city`, `category`, `schedule`, `email`) VALUES (?, ?, ?, ?, ?, ?)");
+        mysqli_stmt_bind_param($stmt, 'ssssss', $jobname, $jobDesc, $city, $category, $schedule, $email);
+        mysqli_stmt_execute($stmt);
+
+        if (mysqli_stmt_affected_rows($stmt) > 0) {
+            echo "Job announcement successfully inserted.";
+        } else {
+            echo "Failed to insert job announcement.";
+        }
+
         header("./index.php");
+        mysqli_stmt_close($stmt);
+        mysqli_close($conn);
     }
-    header("./index.php");
 }
 ?>
 
